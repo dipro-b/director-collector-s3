@@ -24,7 +24,7 @@ The easiest way to run this project is by downloading and running the project JA
 	3. Let the program run.
 	4. Enter the name of your CSV file: enter a valid filename that includes the folder it is in. Press enter. 
 	
-	You may want to enter the same path you entered before. For example, if you ran "/Home/your-folder/director-collector.jar", then your filename might be "/Home/Your-folder/directors.csv". 
+	   You may want to enter the same path you entered before. For example, if you ran "/Home/your-folder/director-collector.jar", then your filename might be "/Home/Your-folder/directors.csv". 
 
 ## Versions:
 0.8 - Current version, allows search of 1 entity at a time, 1 year at a time.
