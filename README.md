@@ -15,7 +15,7 @@ The easiest way to run this project is by downloading and running the project JA
 
 1. Download the executable jar file (.jar), from the "exe" folder on Github.
 2. Open terminal/console.
-3. Enter the command "java -jar /Home/your-folder/director-collector.jar", but using the path for the  file you just downloaded. 
+3. Enter the command **"java -jar /Home/your-folder/director-collector.jar"**, but using the path for the  file you just downloaded. 
 	1. For example, if you saved the file in "Downloads," then the path might look like this: "user-name/Home/Downloads/director-collector.jar".
 	2. If you are having trouble, you can drag the file from your finder window into the console (the path will appear in the command line).
 4. Follow the instructions on the screen. To exit the program at any time, press ctrl-z (on Mac). 
