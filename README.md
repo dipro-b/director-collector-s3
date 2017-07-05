@@ -26,6 +26,10 @@ The easiest way to run this project is by downloading and running the project JA
 	
 	   You may want to enter the same path you entered before. For example, if you ran "/Home/your-folder/director-collector.jar", then your filename might be "/Home/Your-folder/directors.csv". 
 
+### System Requirements
+- A working internet connection (to connect to the IRS database)
+- Java 1.8 or later
+
 ## Versions:
 0.8 - Current version, allows search of 1 entity at a time, 1 year at a time.
 
