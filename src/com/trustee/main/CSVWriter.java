@@ -32,9 +32,17 @@ public class CSVWriter {
 			writer.append(COMMA_DELIMITER);
 			writer.append(year);
 			writer.append(COMMA_DELIMITER);
-			writer.append(t.getName());
+			String name = t.getName();
+			if (name.contains(",")) {
+				name.replace(',', ' ');
+			}
+			writer.append(name);
 			writer.append(COMMA_DELIMITER);
-			writer.append(t.getJob());
+			String job = t.getJob();
+			if (job.contains(",")) {
+				job.replace(',', ' ');
+			}
+			writer.append(job);
 			writer.append(LINE_SEPARATOR);
 		}
 		
