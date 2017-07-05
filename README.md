@@ -18,7 +18,7 @@ The easiest way to run this project is by downloading and running the project JA
 3. Enter the command "java -jar /Home/your-folder/director-collector.jar", but using the path for the  file you just downloaded. 
 	1. For example, if you saved the file in "Downloads," then the path might look like this: "user-name/Home/Downloads/director-collector.jar".
 	2. If you are having trouble, you can drag the file from your finder window into the console (the path will appear in the command line).
-4. Follow the instructions on the screen. 
+4. Follow the instructions on the screen. To exit the program at any time, press ctrl-z (on Mac). 
 	1. Enter the EIN of the entity: enter the 9-digit Employer Identification Number (without dashes) into the terminal window. Press enter.
 	2. Enter the year you want to look up: enter a year from 2011 or later (eg: "2014"). Press enter.
 	3. Let the program run.
