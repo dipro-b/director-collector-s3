@@ -1,23 +1,47 @@
 package com.trustee.main;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.HashMap;
 
 public class OnlineFilingNavigator {
 	
-	protected static String MY_EIN;
+	private String MY_EIN;
+	private boolean isFile = false;
+	private boolean allYears = false;
+	private IndexTraveller myTraveller;
+	
+	public OnlineFilingNavigator() {
+		myTraveller = new IndexTraveller();
+	}
 	
 	/**
 	 * @param ein Employee Identification Number of entity
 	 */
 	public OnlineFilingNavigator(String ein) {
 		MY_EIN = ein;
+		if (ein.endsWith(".txt")) isFile = true;
+	}
+	
+	
+	// setter and getter methods
+	// TODO: fix EIN and object passing between 
+	// Navigator class and Traveller class
+	public void setEIN(String ein) {
+		MY_EIN = ein;
+		if (ein.endsWith(".txt")) isFile = true;
+	}
+	
+	public String getEIN() {
+		return MY_EIN;
+	}
+	
+	public boolean isFile() {
+		return this.isFile;
+	}
+	
+	public boolean isAllYears() {
+		return this.allYears;
 	}
 	
 	/**
@@ -26,86 +50,11 @@ public class OnlineFilingNavigator {
 	 * @return url in string form
 	 * @throws IOException if year is before 2010
 	 */
-	public static String getIndexURL(String year) throws IOException {
-		if (Integer.parseInt(year) <= 2010) throw new IOException("Year must be 2011 or later!");
+	private String getIndexURL(String year) throws IOException {
+		if (Integer.parseInt(year) <= 2010) 
+			throw new IOException("Year must be 2011 or later!");
 		String ans = "https://s3.amazonaws.com/irs-form-990/index_" + year + ".json";
-		System.out.println("URL Generated! \nURL = " + ans + "\n");
-		return ans;
-	}
-	
-	/**
-	 * Get url of XML document using the index file
-	 * @param ein - EIN of entity OR filename containing multiple EINs
-	 * @param indexURL - URL of index file
-	 * @return - URL of tax return
-	 * @throws IOException if EIN cannot be found in index file or if EIN file is malformed
-	 * TODO: Add logic to parse EINs
-	 */
-	public static String getIdentifier(String ein, String indexURL) throws Exception {
-		URL index = new URL(indexURL);
-		boolean isFile = false;
-		
-		if (ein.endsWith(".txt")) {
-			isFile = true;
-		}
-		
-		// make set of EINs
-		HashSet<String> einSet = new HashSet<String>();
-		if (isFile) {
-			ArrayList<String> eins = readEINFile(ein);
-			einSet.addAll(eins);
-		}
-		else {
-			einSet.add(ein);
-		}
-		
-		// open stream of JSON index file
-		BufferedReader in = new BufferedReader(new InputStreamReader(index.openStream()));
-		Scanner reader = new Scanner(in);
-		reader.useDelimiter("\"");
-		
-		boolean found = false;
-		String token = "";
-		long sysTime = System.currentTimeMillis();
-		long now;
-		while (reader.hasNext()) {
-			// timer
-			now = System.currentTimeMillis();
-			if ((now - sysTime) > 5000) {
-				System.out.println("Working...");
-				sysTime = System.currentTimeMillis();
-			}
-			
-			// parsing logic
-			token = reader.next();
-			if (token.equals("EIN")) {
-				reader.next();
-				token = reader.next();
-				if (token.equalsIgnoreCase(ein)) {
-					found = true;
-					break;
-				}
-			}
-		}
-		
-		// throw exception if parsed whole document
-		if (found == false) {
-			reader.close();
-			in.close();
-			throw new IOException("Entity does not exist! Check EIN number and try again.");
-		}
-		
-		while (!token.equals("URL")) {
-			if (!reader.hasNext()) break;
-			token = reader.next();
-		}
-		reader.next();
-		String ans = reader.next();
-		
-		reader.close();
-        in.close();
-		
-        System.out.println("Identifier found! \nId = " + ans + "\n");
+		System.out.println("URL Generated! \nURL = " + ans);
 		return ans;
 	}
 	
@@ -115,7 +64,7 @@ public class OnlineFilingNavigator {
 	 * @return list of trustees
 	 * @throws Exception if document is malformed or URL does not exist
 	 */
-	public static ArrayList<Trustee> getTrustees(String url) throws Exception {
+	private ArrayList<Trustee> getTrustees(String url) throws Exception {
 		// initialize parser
 		TaxXMLParserSAX parser = new TaxXMLParserSAX(url);
 		
@@ -124,40 +73,30 @@ public class OnlineFilingNavigator {
 		
 		return trustees;
 	}
-	/**
-	 * Helper function to read file of EINs
-	 * 
-	 * Logic: Since index file is so large, it makes more sense to look for multiple entities at once
-	 * @param filename file of EINs, separated by line breaks
-	 * @return ArrayList of all EINs (in string form)
-	 */
-	public static ArrayList<String> readEINFile(String filename) throws Exception {
-		Scanner scan = new Scanner(new File(filename));
-		ArrayList<String> ans = new ArrayList<String>();
-		
-		while (scan.hasNextLine()) {
-			String ein = scan.nextLine();
-			ans.add(ein);
-		}
-		
-		scan.close();
-		return ans;
-	}
 	
-	public static void main(String[] args) {
+	
+	/**
+	 * Main method that calls other methods
+	 * @param year
+	 * TODO: figure out how to process multiple EINs
+	 * TODO: figure out how this fits in
+	 */
+	public ArrayList<Trustee> processSingleEIN(String year) {
 		try {
-//			String EIN = "860292099"; // Safari Club Foundation
-			String EIN = "860974183"; // Safari Club International
-			String url = getIndexURL("2014");
-			String id = getIdentifier(EIN, url);
-//			System.out.println(id);
+			String EIN = this.getEIN();
+			String url = getIndexURL(year);
+			HashMap<String, String> assetMap = myTraveller.getIdentifier(EIN, url);
+			String id = assetMap.get(EIN);
+			ArrayList<Trustee> trustees = getTrustees(id);
 			
-//			String id = "https://s3.amazonaws.com/irs-form-990/201441359349303644_public.xml";
-			getTrustees(id);
+			CSVWriter write = new CSVWriter(trustees);
+			write.writeCSV("output/SafariClub1.csv", EIN, year);
+			return trustees;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
+		
 	}
-	
 }
