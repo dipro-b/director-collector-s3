@@ -10,6 +10,7 @@ public class OnlineFilingNavigator {
 	private boolean isFile = false;
 	private boolean allYears = false;
 	private IndexTraveller myTraveller;
+	private ArrayList<Trustee> myTrustees;
 	
 	public OnlineFilingNavigator() {
 		myTraveller = new IndexTraveller();
@@ -44,6 +45,10 @@ public class OnlineFilingNavigator {
 		return this.allYears;
 	}
 	
+	public void setTrustees(ArrayList<Trustee> t) {
+		this.myTrustees = t;
+	}
+	
 	/**
 	 * Generates URL from year given.
 	 * @param year - tax year
@@ -70,8 +75,19 @@ public class OnlineFilingNavigator {
 		
 		// look through XML doc for <Form990PartVIISectionAGrp> and <PersonNm>
 		ArrayList<Trustee> trustees = parser.parse();
+		this.setTrustees(trustees);
 		
 		return trustees;
+	}
+	
+	public void writeCSV(String filename, String EIN, String year) {
+		CSVWriter write = new CSVWriter(this.myTrustees);
+		try {
+			write.writeCSV(filename, EIN, year);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -89,8 +105,6 @@ public class OnlineFilingNavigator {
 			String id = assetMap.get(EIN);
 			ArrayList<Trustee> trustees = getTrustees(id);
 			
-			CSVWriter write = new CSVWriter(trustees);
-			write.writeCSV("output/SafariClub1.csv", EIN, year);
 			return trustees;
 		}
 		catch (Exception e) {

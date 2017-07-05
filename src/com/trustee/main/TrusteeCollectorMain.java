@@ -1,11 +1,13 @@
 package com.trustee.main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TrusteeCollectorMain {
 	
 	public static void textEntryInterface(OnlineFilingNavigator nav) {
 		Scanner input = new Scanner(System.in);
+		ArrayList<Trustee> trustees = new ArrayList<Trustee>();
 		
 		// intro
 		System.out.println("Welcome to the IRS Trustee Collector!");
@@ -36,8 +38,13 @@ public class TrusteeCollectorMain {
 		
 		// call parse method
 		if (!year.equals("0")) {
-			nav.processSingleEIN(year);
+			trustees = nav.processSingleEIN(year);
 		}
+		
+		// call CSVwrite method
+		System.out.println("Enter a filename for the CSV file. Don't forget to include the directory!");
+		String fname = input.next();
+		nav.writeCSV(fname, EIN, year);
 		
 		input.close();
 	}
