@@ -28,6 +28,8 @@ The easiest way to run this project is by downloading and running the project JA
 
 ### System Requirements
 - A working internet connection (to connect to the IRS database)
+- A Java Runtime Environment (JRE)
+  JRE can be downloaded here: http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
 - Java 1.8 or later
 
 ## Versions:
