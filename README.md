@@ -11,7 +11,7 @@ This project uses the IRS AWS database to pull information on the directors of a
 
 The easiest way to run this project is by downloading and running the project JAR file (which can be found in the 'exe' folder). 
 
-##Mac Instructions
+##M# ac Instructions
 
 1. Download the executable jar file, from the "exe" folder.
 2. Open terminal.
