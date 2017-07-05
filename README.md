@@ -15,5 +15,5 @@ The easiest way to run this project is by downloading and running the project JA
 
 1. Download the executable jar file, from the "exe" folder.
 2. Open terminal.
-3. Enter the command "java /Home/your-folder/director-collector.jar", but using the path for the jar file you just downloaded.
+3. Enter the command "java -jar /Home/your-folder/director-collector.jar", but using the path for the jar file you just downloaded.
 4. Follow the instructions on the screen. 
