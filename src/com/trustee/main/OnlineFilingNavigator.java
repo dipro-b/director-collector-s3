@@ -97,20 +97,14 @@ public class OnlineFilingNavigator {
 	 * TODO: figure out how to process multiple EINs
 	 * TODO: figure out how this fits in
 	 */
-	public ArrayList<Trustee> processSingleEIN(String year) {
-		try {
-			String EIN = this.getEIN();
-			String url = getIndexURL(year);
-			HashMap<String, String> assetMap = myTraveller.getIdentifier(EIN, url);
-			String id = assetMap.get(EIN);
-			ArrayList<Trustee> trustees = getTrustees(id);
-			
-			return trustees;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public ArrayList<Trustee> processSingleEIN(String year) throws Exception{
+		String EIN = this.getEIN();
+		String url = getIndexURL(year);
+		HashMap<String, String> assetMap = myTraveller.getIdentifier(EIN, url);
+		String id = assetMap.get(EIN);
+		ArrayList<Trustee> trustees = getTrustees(id);
+
+		return trustees;
 		
 	}
 }

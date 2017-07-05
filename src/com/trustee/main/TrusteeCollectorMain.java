@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class TrusteeCollectorMain {
 	
-	public static void textEntryInterface(OnlineFilingNavigator nav) {
+	public static void textEntryInterface(OnlineFilingNavigator nav) throws Exception {
 		Scanner input = new Scanner(System.in);
 		
 		// intro
@@ -62,8 +62,11 @@ public class TrusteeCollectorMain {
 		
 		// create new navigator
 		OnlineFilingNavigator mainNavigator = new OnlineFilingNavigator();
-		
-		textEntryInterface(mainNavigator);
-		
+		try {
+			textEntryInterface(mainNavigator);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
