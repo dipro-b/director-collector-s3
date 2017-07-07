@@ -1,5 +1,5 @@
 # director-collector-s3
-Code to create a file of all the directors, trustees, and key employees of a 501(c) corporation using the IRS database.
+Code to create a file of all the directors, trustees, and key employees of a 501(c) corporation using the IRS database. This project is licensed under an MIT License (which allows distribution and changes, with attribution). 
 
 ## Overview
 
@@ -15,7 +15,7 @@ The easiest way to run this project is by downloading and running the project JA
 
 1. Download the executable jar file (.jar), from the "exe" folder on Github.
 2. Open terminal/console.
-3. Enter the command "java -jar /Home/your-folder/director-collector.jar", but using the path for the  file you just downloaded. 
+3. Enter the command **"java -jar /Home/your-folder/director-collector.jar"**, but using the path for the  file you just downloaded. 
 	1. For example, if you saved the file in "Downloads," then the path might look like this: "user-name/Home/Downloads/director-collector.jar".
 	2. If you are having trouble, you can drag the file from your finder window into the console (the path will appear in the command line).
 4. Follow the instructions on the screen. To exit the program at any time, press ctrl-z (on Mac). 
@@ -25,6 +25,11 @@ The easiest way to run this project is by downloading and running the project JA
 	4. Enter the name of your CSV file: enter a valid filename that includes the folder it is in. Press enter. 
 	
 	   You may want to enter the same path you entered before. For example, if you ran "/Home/your-folder/director-collector.jar", then your filename might be "/Home/Your-folder/directors.csv". 
+
+### System Requirements
+- A working internet connection (to connect to the IRS database)
+- A Java Runtime Environment (JRE). JRE can be downloaded here: http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
+- Java 1.8 or later
 
 ## Versions:
 0.8 - Current version, allows search of 1 entity at a time, 1 year at a time.
