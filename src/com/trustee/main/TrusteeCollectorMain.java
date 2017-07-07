@@ -28,7 +28,8 @@ public class TrusteeCollectorMain {
 		String year;
 		while (true) {
 			year = input.next();
-			if (Integer.parseInt(year) >= 2011) {
+			int yr = Integer.parseInt(year);
+			if (yr >= 2011 && yr <= 2020) {
 				break;
 			}
 			else System.out.println("Please enter a year 2011 or later.");
@@ -59,6 +60,7 @@ public class TrusteeCollectorMain {
 //		String EIN = "860292099"; // Safari Club Foundation
 //		String EIN = "860974183"; // Safari Club International
 //		String EIN = "/data/EIN_File.txt";
+//		String EIN = "561656943"; // JOHN LOCKE FOUNDATION
 		
 		// create new navigator
 		OnlineFilingNavigator mainNavigator = new OnlineFilingNavigator();

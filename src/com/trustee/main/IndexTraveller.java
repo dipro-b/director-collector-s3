@@ -73,6 +73,10 @@ public class IndexTraveller {
 			throw new IOException("Entity does not exist! Check EIN number and try again.");
 		}
 		
+		if ((ans.size() == 1) && (ans.containsValue(null))) {
+			return null;
+		}
+		
 		reader.close();
         in.close();
 		
@@ -90,9 +94,12 @@ public class IndexTraveller {
 	 */
 	private String findAsset(String EIN, Scanner reader) {
 		boolean found = false;
+		boolean hasURL = false;
 		String token = null;
 		long sysTime = System.currentTimeMillis();
 		long now;
+		
+		String ans = "";
 		
 		// find EIN
 		while (reader.hasNext()) {
@@ -113,19 +120,36 @@ public class IndexTraveller {
 				}
 			}
 		}
-		if (!found) return null;
+		if (!found) {
+			System.out.println("Entity is not in the database. Check your EIN. "
+					+ "If the EIN is correct, then the corporation may not have "
+					+ "filed an online tax return.");
+			return null;
+		}
 		
 		// get asset URL
-		while (!token.equalsIgnoreCase("URL")) {
-			if (!reader.hasNext()) break;
+		while (reader.hasNext()) {
 			token = reader.next();
-		}
-		if (reader.hasNext()) {
-			token = reader.next();
-			token = reader.next();
+			if (token.equalsIgnoreCase("EIN")) { // parsed through entry
+				break;
+			}
+			if (token.equalsIgnoreCase("URL")) {
+				hasURL = true;
+			}
+			if (isURL(token) && hasURL) { // found entry
+				ans = token;
+				break;
+			}
+			
 		}
 		
-		if (found) return token;
+		if ((found) && (hasURL)) {
+			return ans;
+		}
+		else if ((found) && (!hasURL)) {
+			System.out.println("Entity exists, but it has no data!");
+			return null;
+		}
 		else return null;
 	}
 	
@@ -231,6 +255,11 @@ public class IndexTraveller {
 		
 		scan.close();
 		return ans;
+	}
+	
+	private boolean isURL(String url) {
+		if (url.endsWith(".xml")) return true;
+		else return false;
 	}
 	
 	
